@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>Simon says what?</title>
+  
+  
+  
+      <link rel="stylesheet" href="css/style.css">
+
+  
+</head>
+
+<body>
+  <div class="container">
+  <div class="buttons">
+    <div class="key" data-key="65" data-index="1">
+      <button style="background-color: blue">A</button>
+    </div>
+    <div class="key" data-key="83" data-index="2">
+      <button style="background-color: red">S</button>
+    </div>
+    <div class="key" data-key="68" data-index="3">
+      <button style="background-color: yellow">D</button>
+    </div>
+    <div class="key" data-key="70" data-index="1">
+      <button style="background-color: green">F</button>
+    </div>
+  </div>
+
+  <div class="controls">
+    <div class="ctrl">
+      <button id = "start">Start</button>
+    </div>
+    <div class="ctrl">
+      <button id = "count" disabled><span>--</span></button>
+    </div>
+    <div class="ctrl">
+      <button id = "strict">Strict</button>
+    </div>
+  </div>
+</div>
+<div class="audiocontainer">
+<audio data-key= "65" src="https://s3.amazonaws.com/freecodecamp/simonSound1.mp3"></audio>
+<audio data-key= "83" src="https://s3.amazonaws.com/freecodecamp/simonSound2.mp3"></audio>
+<audio data-key= "68" src="https://s3.amazonaws.com/freecodecamp/simonSound3.mp3"></audio>
+<audio data-key= "70" src="https://s3.amazonaws.com/freecodecamp/simonSound4.mp3"></audio>
+</div>
+  
+    <script src="js/index.js"></script>
+
+</body>
+</html>
