@@ -17,18 +17,24 @@ const options = [{
     url: "https://s3.amazonaws.com/freecodecamp/simonSound4.mp3"
   }];
 
-function turnOnKeys(){
+function turnOnKeys(){ // turn on the keys and mouse eventListeners
   keys.forEach(key => {
     key.addEventListener('click',playsoundMouse);
   })
   window.addEventListener('keydown', playsoundKey); 
 }
 
-function turnOffKeys(){
+function turnOffKeys(){ // turn off the keys and mouse eventListeners
    keys.forEach(key => {
     key.removeEventListener('click',playsoundMouse);
   })
   window.removeEventListener('keydown', playsoundKey); 
+}
+
+function buttonBreak(interval){
+  turnOffKeys();
+  
+  setTimeout(turnOnKeys, interval);
 }
 
 function startGame(){
@@ -39,10 +45,12 @@ function startGame(){
   turnOnKeys();  
 }
 
-function buttonBreak(interval){
-  turnOffKeys();
-  
-  setTimeout(turnOnKeys, interval);
+function setRestart(){
+  let start = document.getElementById('start');
+  start.innerHTML = 'Restart';
+  start.classList.add('restart');
+  start.removeEventListener('click', startGame);
+  start.addEventListener('click', restartGame);
 }
 
 function makeMove(count) {
@@ -50,6 +58,11 @@ function makeMove(count) {
   series.push(options[Math.floor(Math.random()*4)]);
   playSeries();
 }  
+
+function displayCount(count){
+  let countDisplay = "0" + count;
+  document.getElementById('count').childNodes[0].innerHTML = countDisplay.slice(-2); 
+}
    
 function playSeries(){
   turnOffKeys(); 
@@ -70,8 +83,8 @@ function playSeries(){
     }
   audio.addEventListener('ended', playNext);
   audio.play();
-  document.querySelector(`.key[data-key="${series[0]["keycode"]}"]`).classList.add('pressed');
 
+  document.querySelector(`.key[data-key="${series[0]["keycode"]}"]`).classList.add('pressed');
 }
 
 function restartGame(){
@@ -81,27 +94,10 @@ function restartGame(){
   setTimeout(startGame, 1500);
 }
 
-function displayCount(count){
-  let countDisplay = "0" + count;
-  document.getElementById('count').childNodes[0].innerHTML = countDisplay.slice(-2); 
-}
-
 function toggleStrictMode(){
   let strict = document.getElementById('strict').classList;
 
     strictModeActive = strict.toggle('strict');
-};
-
-function setRestart(){
-  let start = document.getElementById('start');
-  start.innerHTML = 'Restart';
-  start.classList.add('restart');
-  start.removeEventListener('click', startGame);
-  start.addEventListener('click', restartGame);
-}
-
-function removeTransition(e){
-  this.classList.remove('pressed');
 };
 
 function playsoundKey(e){
@@ -142,9 +138,11 @@ function playsound(keycode){
         button.classList.add('error');
         button.addEventListener('transitionend', removeError);
       });
-      if (strictModeActive) {
+      displayCount("!!");
+      setTimeout(displayCount, 300, count);
+      if (strictModeActive) { // start again
         restartGame();
-      } else {
+      } else { // show current sequence again
         currentIndex = 0;
         buttonBreak(1500);
         setTimeout(playSeries, 1500);
@@ -156,6 +154,10 @@ function playsound(keycode){
 function removeError(){
   this.classList.remove('error');
 }
+
+function removeTransition(e){
+  this.classList.remove('pressed');
+};
 
 keys.forEach(key => {  
   key.addEventListener('transitionend', removeTransition);
