@@ -88,6 +88,7 @@ function playSeries(){
 }
 
 function restartGame(){
+  document.getElementById('overlay').classList.add('hidden');   document.getElementById('reset').removeEventListener('click', restartGame);
   series = [];
   currentIndex = 0;
   count = 1;
@@ -123,8 +124,8 @@ function playsound(keycode){
       if (currentIndex === series.length) {
         count++;
         if (count == 21){
-          alert("You Won!");
-          restartGame();
+          document.getElementById('overlay').classList.remove('hidden');
+          document.getElementById('reset').addEventListener('click', restartGame);
         } else {
           buttonBreak(1500);
           setTimeout(makeMove, 1500, count);
